@@ -97,6 +97,22 @@ def get_sum_zero_pairs(numbers):
         [[-1, 1], [0, 0]]
     """
 
+    # SOLUTION DICT:
+    # pair_dict = {}
+
+    # for num in numbers:
+    #     if -num in numbers:
+    #         # The following line makes sure I don't end up with duplicate keys (ie 2 and -2)
+    #         num = max(num, -num)
+    #         pair_dict[-num] = num
+
+    # return [pair for pair in pair_dict.items()]
+
+    # SOLUTION DICT2:
+    pair_dict = {-x:x for x in numbers if -x in numbers and x >= -x}
+
+    return [[key, value] for key, value in pair_dict.items()]
+
     # SOLITION 1: 
     # pair_list = []
 
@@ -120,12 +136,12 @@ def get_sum_zero_pairs(numbers):
     # return [list(pair) for pair in set(tuple_list)]
 
     # SOLUTION 3:
-    tuple_list = [tuple(sorted((x, y))) for x in numbers for y in numbers if x+y==0]
+    # tuple_list = [tuple(sorted((x, y))) for x in numbers for y in numbers if x+y==0]
 
-    return [list(pair) for pair in set(tuple_list)]   
+    # return [list(pair) for pair in set(tuple_list)]   
 
     # Not going to lie, I was REALLY surprised when the double for loop worked in the comprehension.
-    # I thought about doing a dictionary comprehension in here (since keys have to be unique) but thought I'd already spent enough time on this problem.
+    # It was around this time I had the brilliant idea to start with an empty dictionary intead of an empty list.
 
 
 def top_chars(phrase):
