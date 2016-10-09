@@ -29,7 +29,14 @@ def count_words(phrase):
         {'Porcupine': 1, 'do.': 1, 'porcupine': 1, 'see,': 1}
     """
 
-    return {}
+    # SOLUTION 1:
+    phrase = phrase.split()
+    word_count_dict = {}
+
+    for word in phrase:
+        word_count_dict[word] = word_count_dict.get(word, 0) + 1
+
+    return word_count_dict 
 
 
 def get_melon_price(melon_name):
@@ -52,7 +59,15 @@ def get_melon_price(melon_name):
         'No price found'
     """
 
-    return 0
+    melon_dict = {"Watermelon" : 2.95,
+                  "Cantaloupe" : 2.50,
+                  "Musk" : 3.25,
+                  "Christmas" : 14.25}
+
+
+    # The title() method will ensure the user doesn't create a new key if they 
+    # spell the name of the melon correctly but don't use proper capitalization.
+    return melon_dict.get(melon_name.title(), "No price found")
 
 
 def word_length_sorted(words):
@@ -71,7 +86,20 @@ def word_length_sorted(words):
         [(1, ['a']), (2, ['an', 'ok']), (3, ['day']), (5, ['apple'])]
     """
 
-    return []
+    # Create the dictionary:
+    len_dict = {}
+
+    # Fill the dictionary:
+    for word in words:
+        len_dict[len(word)] = len_dict.get(len(word), [])
+        len_dict[len(word)].append(word)
+
+    # Sort the word lists (values)
+    for value in len_dict.values():
+        value.sort()
+
+    # Return a list of tuples ordered by word-length
+    return sorted(len_dict.items())
 
 
 def translate_to_pirate_talk(phrase):
@@ -113,7 +141,28 @@ def translate_to_pirate_talk(phrase):
         'me swabbie be not a man!'
     """
 
-    return ""
+    english_to_pirate_dictionary = {"sir" : "matey",
+                                    "hotel" : "fleabag inn",
+                                    "student" : "swabbie",
+                                    "man" : "matey",
+                                    "professor" : "foul blaggart",
+                                    "restaurant" : "galley",
+                                    "your" : "yer",
+                                    "excuse" : "arr",
+                                    "students" : "swabbies",
+                                    "are" : "be",
+                                    "restroom" : "head",
+                                    "my" : "me",
+                                    "is" : "be"}
+
+    words = phrase.split()
+    pirate_text = ""
+
+    # A loop which replaces the english word with the pirate word, if one exists.
+    for word in words:
+        pirate_text += english_to_pirate_dictionary.get(word, word) + " "
+
+    return pirate_text.rstrip()
 
 
 def kids_game(names):
@@ -159,7 +208,51 @@ def kids_game(names):
     good solutions here will definitely require a dictionary.
     """
 
-    return []
+    # names_back = [names[0]]
+    # del names[0]
+
+    # kid_dict = {name : name[-1] for name in names}
+
+    # for name in names:
+    #     letter_up = names_back[-1][-1]
+    #     for name in names:
+    #         print names
+    #         if kid_dict[name] == letter_up:
+    #             names_back.append(name)
+    #             print names_back
+    #             names.remove(name)
+    #             print names
+
+    # return names_back
+
+    # DICT SOLUTION:
+    """I like how I did the dictionary here (though I know it's over-complicated
+    for what I needed).  HOWEVER, since a dictionary is unordered, this solution
+    wouldn't pass the doc_string tests 100% of the time.
+    """
+
+    kid_dict = {}
+    return_text = [names[0]]
+
+    # Fill a kid_dict based on the names being played with
+    for name in names[1:]:
+        kid_dict[name] = kid_dict.get(
+            name, {"start_letter" : name[0], "last_letter" : name[-1]})
+    
+    # Find the next word & remove it once used
+    for i in range(len(names)):
+        letter_up = return_text[i][-1]
+        options = [key for key, mini_dict in kid_dict.items()
+            if kid_dict[key]["start_letter"] == letter_up]
+        if options == []:
+            return return_text
+        new_word = options.pop()
+        return_text.append(new_word)
+        del kid_dict[new_word]
+
+    return return_text
+
+    
 
 #####################################################################
 # You can ignore everything below this.
