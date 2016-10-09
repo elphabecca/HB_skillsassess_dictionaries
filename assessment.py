@@ -208,49 +208,45 @@ def kids_game(names):
     good solutions here will definitely require a dictionary.
     """
 
-    # names_back = [names[0]]
-    # del names[0]
+    names_back = [names[0]]
+    del names[0]
 
-    # kid_dict = {name : name[-1] for name in names}
+    kid_dict = {name : name[0] for name in names}
 
-    # for name in names:
-    #     letter_up = names_back[-1][-1]
-    #     for name in names:
-    #         print names
-    #         if kid_dict[name] == letter_up:
-    #             names_back.append(name)
-    #             print names_back
-    #             names.remove(name)
-    #             print names
+    for i in range(len(names)):
+        letter_up = names_back[-1][-1]
+        next_words = [name for name in names if kid_dict[name] == letter_up]
+        if next_words == []:
+            return names_back
+        names_back.append(next_words[0])
+        names.remove(next_words[0])
 
-    # return names_back
+
+    return names_back
 
     # DICT SOLUTION:
-    """I like how I did the dictionary here (though I know it's over-complicated
-    for what I needed).  HOWEVER, since a dictionary is unordered, this solution
-    wouldn't pass the doc_string tests 100% of the time.
-    """
+    """This was my first solution -- overcomplicated."""
 
-    kid_dict = {}
-    return_text = [names[0]]
+    # kid_dict = {}
+    # return_text = [names[0]]
 
-    # Fill a kid_dict based on the names being played with
-    for name in names[1:]:
-        kid_dict[name] = kid_dict.get(
-            name, {"start_letter" : name[0], "last_letter" : name[-1]})
+    # # Fill a kid_dict based on the names being played with
+    # for name in names[1:]:
+    #     kid_dict[name] = kid_dict.get(
+    #         name, {"start_letter" : name[0], "last_letter" : name[-1]})
     
-    # Find the next word & remove it once used
-    for i in range(len(names)):
-        letter_up = return_text[i][-1]
-        options = [key for key, mini_dict in kid_dict.items()
-            if kid_dict[key]["start_letter"] == letter_up]
-        if options == []:
-            return return_text
-        new_word = options.pop()
-        return_text.append(new_word)
-        del kid_dict[new_word]
+    # # Find the next word & remove it once used
+    # for i in range(len(names)):
+    #     letter_up = return_text[i][-1]
+    #     options = [key for key, mini_dict in kid_dict.items()
+    #         if kid_dict[key]["start_letter"] == letter_up]
+    #     if options == []:
+    #         return return_text
+    #     new_word = options.pop()
+    #     return_text.append(new_word)
+    #     del kid_dict[new_word]
 
-    return return_text
+    # return return_text
 
     
 
